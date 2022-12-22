@@ -1,25 +1,143 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import AddIcon from "@mui/icons-material/Add";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import TextField from "@mui/material/TextField";
 
 function App() {
+  const [open, setOpen] = useState(false);
+
+  const[email,setEmail]=useState();
+  
+
+  const [valPhoneNumber, setValPhonenumber] = useState();
+
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+    },
+  });
+
+
+
+  const handleopen = () => {
+    setOpen(true);
+  };
+
+
+  const modalClose = () => {
+    setOpen(false);
+  };
+
+  const addEmail= (e)=>{
+    // const em =e.target.email.value;
+    // console.log("event",e.taget.value);
+    // setEmail(e.target.value);
+    setEmail(e.target.value);
+    console.log("email",e.target.value);
+
+  }
+
+  const onSubmit = (e) => {
+  console.log(e);
+      }
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "100%",
+    transform: "translate(-50%, -50%)",
+    width: 800,
+    height: 700,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <button type="button" className="btn btn-dark" onClick={handleopen}>
+        add button
+      </button>
+
+      {/* <button onClick={handleopen}> add button</button> */}
+      <Modal open={open} onClose={modalClose}>
+        <Box sx={style}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="form-floating pb-3">
+              <TextField
+                label="Name here"
+                variant="outlined"
+                {...register("name", { required: "Name is required" })}
+              />
+            </div>
+
+            <div className="form-floating email pb-3">
+              <TextField
+                label="Email here"
+                variant="outlined"
+                type="email"
+                {...register("email", {
+                  required: "Email Address is required",
+                })}
+              
+              />
+
+              <AddIcon className="addicon"   value={email} onClick={addEmail}/>
+            </div>
+            <div className="form-floating phonenumber pb-3">
+              <PhoneInput
+                name="phoneNumber"
+                type="tel"
+                placeholder="phonenumber"
+                country={"in"}
+                {...register("phoneNumber", {
+                  required: "phoneNumber mandatory",
+                  minLength: {
+                    value: 10,
+                    pattern: {
+                      value: /^(0|[1-9]\d*)(\.\d+)?$/,
+                    },
+                  },
+                })}
+              />
+              <AddIcon />
+            </div>
+            <div className="col-md-12 pb-3">
+              <button type="button" className="btn btn-success">
+                save
+              </button>
+              <button type="button" className = "btn btn-danger">
+                cancel
+              </button>
+            </div>
+            <input type="submit" />
+          </form>
+        </Box>
+
+        {/* <form>
+
+         <TextField label="Email here" variant="outlined"
+                      type="email"
+                      {...register("email", {
+                        required: "Email Address is required",
+                      })}
+                      />
+                      <TextField label="Email here" variant="outlined"
+                      type="email"
+                      {...register("email", {
+                        required: "Email Address is required",
+                      })}
+                    />
+                    
+                      </form> */}
+      </Modal>
+    </>
   );
 }
-
 export default App;
