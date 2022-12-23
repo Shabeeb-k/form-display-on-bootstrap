@@ -9,17 +9,26 @@ import "react-phone-input-2/lib/style.css";
 import TextField from "@mui/material/TextField";
 
 function App() {
+
+
+  let nextId = 0;
+
+
+
+  
   const [open, setOpen] = useState(false);
 
-  const[email,setEmail]=useState();
+  const[email,setEmail]=useState('');
+
+  const [updateEmail,setupdateEmail]=useState([]);
   
+  const[emailarray,setEmailarray]=useState([]);
 
   const [valPhoneNumber, setValPhonenumber] = useState();
 
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      name: "",
-      email: "",
+      
     },
   });
 
@@ -34,17 +43,24 @@ function App() {
     setOpen(false);
   };
 
-  const addEmail= (e)=>{
-    // const em =e.target.email.value;
-    // console.log("event",e.taget.value);
-    // setEmail(e.target.value);
-    setEmail(e.target.value);
-    console.log("email",e.target.value);
 
+
+const addEmail = () =>{
+  setupdateEmail(email);
+  setEmailarray(email);
+  console.log("stored",emailarray);
+  // console.log("event",email);  
+}
+  
+  const handleEmail = (e) =>{
+    setEmail(e.target.value);
+    // console.log("email",e.target.value);
   }
+  
 
   const onSubmit = (e) => {
-  console.log(e);
+  setEmail("email",e.target.value);
+  console.log("email",e.target.value);
       }
   const style = {
     position: "absolute",
@@ -84,11 +100,26 @@ function App() {
                 type="email"
                 {...register("email", {
                   required: "Email Address is required",
+                  
                 })}
-              
+                onChange={e => setEmail(e.target.value)}
+                value = {email}
+                           
               />
+              
+              <AddIcon className="addicon"  onClick={() => {
+        setEmail('');
+        setupdateEmail([
+          ...updateEmail,
+          { id: nextId++, email:email }
+        ]);
+      }}/>
+      <ul>
+        {updateEmail.map(updateEmail => (
+          <li key={updateEmail.id}>{updateEmail.email}</li>
+        ))}
+      </ul>
 
-              <AddIcon className="addicon"   value={email} onClick={addEmail}/>
             </div>
             <div className="form-floating phonenumber pb-3">
               <PhoneInput
@@ -120,22 +151,7 @@ function App() {
           </form>
         </Box>
 
-        {/* <form>
 
-         <TextField label="Email here" variant="outlined"
-                      type="email"
-                      {...register("email", {
-                        required: "Email Address is required",
-                      })}
-                      />
-                      <TextField label="Email here" variant="outlined"
-                      type="email"
-                      {...register("email", {
-                        required: "Email Address is required",
-                      })}
-                    />
-                    
-                      </form> */}
       </Modal>
     </>
   );
