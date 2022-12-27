@@ -2,11 +2,14 @@ import "./App.css";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import TextField from "@mui/material/TextField";
+import { Metadata } from "libphonenumber-js";
 
 function App() {
 
@@ -20,13 +23,17 @@ function App() {
 
   const[email,setEmail]=useState('');
 
+  
+
+  const [edit, setEdit] = useState(false);
+
   const [updateEmail,setupdateEmail]=useState([]);
   
   const[emailarray,setEmailarray]=useState([]);
 
   const [valPhoneNumber, setValPhonenumber] = useState();
 
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, setValue,getValues,} = useForm({
     defaultValues: {
       
     },
@@ -56,7 +63,19 @@ const addEmail = () =>{
     setEmail(e.target.value);
     // console.log("email",e.target.value);
   }
+  const handleMail =()=>{
+
+  }
   
+
+  const deleteEmail = (updateEmail)=>{
+    
+    const delEmail = [...email];
+    
+    delEmail.splice(updateEmail.rowIndex,1);
+    
+    setEmail(delEmail); 
+}
 
   const onSubmit = (e) => {
   setEmail("email",e.target.value);
@@ -93,7 +112,7 @@ const addEmail = () =>{
               />
             </div>
 
-            <div className="form-floating email pb-3">
+            <div className="email pb-3">
               <TextField
                 label="Email here"
                 variant="outlined"
@@ -104,21 +123,36 @@ const addEmail = () =>{
                 })}
                 onChange={e => setEmail(e.target.value)}
                 value = {email}
-                           
-              />
+                   
+              />      
               
               <AddIcon className="addicon"  onClick={() => {
         setEmail('');
+        
         setupdateEmail([
           ...updateEmail,
           { id: nextId++, email:email }
         ]);
-      }}/>
+     
+    } }
+    
+      />
       <ul>
-        {updateEmail.map(updateEmail => (
-          <li key={updateEmail.id}>{updateEmail.email}</li>
-        ))}
+
+        {updateEmail.map(updateEmail => 
+        (
+          //ternary operator is used on edit icon instead of if else
+          <li key={updateEmail.id}>{updateEmail.email} {(email.length==!1)? 
+          <EditIcon onClick={()=>handleMail()}/>:''} {(email.length==!1)?<DeleteIcon onClick={(console.log(updateEmail.email
+            ))} />:''}</li>
+        
+        ))
+        
+        }
+        
+      
       </ul>
+
 
             </div>
             <div className="form-floating phonenumber pb-3">
@@ -140,10 +174,10 @@ const addEmail = () =>{
               <AddIcon />
             </div>
             <div className="col-md-12 pb-3">
-              <button type="button" className="btn btn-success">
+              <button type="button" className="btn btn-success" >
                 save
               </button>
-              <button type="button" className = "btn btn-danger">
+              <button type="button" className = "btn btn-danger" >
                 cancel
               </button>
             </div>
