@@ -9,7 +9,6 @@ import Box from "@mui/material/Box";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import TextField from "@mui/material/TextField";
-import { Metadata } from "libphonenumber-js";
 
 function App() {
 
@@ -63,18 +62,22 @@ const addEmail = () =>{
     setEmail(e.target.value);
     // console.log("email",e.target.value);
   }
-  const handleMail =()=>{
+  const handleEditMail =(e)=>{
+    console.log('e: ', e);
+    setEdit(e);
+    
 
-  }
-  
+      }
+  const deleteEmail = (id)=>{
+    console.log('updateEmail: ', id);
+    
+    const delEmail = [...updateEmail];
 
-  const deleteEmail = (updateEmail)=>{
+    console.log("email",delEmail);
     
-    const delEmail = [...email];
-    
-    delEmail.splice(updateEmail.rowIndex,1);
-    
-    setEmail(delEmail); 
+    delEmail.splice(id,1);
+
+    setupdateEmail(delEmail); 
 }
 
   const onSubmit = (e) => {
@@ -139,12 +142,12 @@ const addEmail = () =>{
       />
       <ul>
 
-        {updateEmail.map(updateEmail => 
+        {updateEmail.map((updateEmail,index) => 
         (
           //ternary operator is used on edit icon instead of if else
           <li key={updateEmail.id}>{updateEmail.email} {(email.length==!1)? 
-          <EditIcon onClick={()=>handleMail()}/>:''} {(email.length==!1)?<DeleteIcon onClick={(console.log(updateEmail.email
-            ))} />:''}</li>
+            <EditIcon onClick={()=>handleEditMail(index)}/>:''} {(email.length==!1)?<DeleteIcon onClick={()=>deleteEmail(index)} />:''}
+          </li>
         
         ))
         
@@ -191,3 +194,4 @@ const addEmail = () =>{
   );
 }
 export default App;
+
