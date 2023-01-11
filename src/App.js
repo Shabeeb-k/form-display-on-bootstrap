@@ -247,7 +247,6 @@ function App() {
       <Button variant="outlined" color="error" onClick={handleopen}>
         add button
       </Button>
-      {/* <button onClick={handleopen}> add button</button> */}
       <Modal open={open} onClose={modalClose}>
         <Box sx={style}>
           <form onSubmit={handleSubmit(onsubmit)}>
@@ -267,7 +266,6 @@ function App() {
                   },
                 })}
                 type="text"
-                // aria-invalid={errors.name ? "true" : "false"}
                 value={nameTyping}
                 onChange={(e) => setNameTyping(e.target.value)}
               />
@@ -353,15 +351,7 @@ function App() {
                 </div>
               );
             })}
-            <div className="col-md-12 autocomplete pb-1">
-              {/* <FormControl error> */}
-              {/* <Controller
-  control={control}
-  rules={{ required: "Required" }}
-  error={errors.skillSelected ? true : false}
-  helperText={errors.skillSelected && errors.skillSelected.message}
-  name="film"
-  as={ */}
+            <div className>
               <Autocomplete
                 multiple
                 options={top100Films}
@@ -379,8 +369,6 @@ function App() {
                     {...movie}
                     label="skill"
                     placeholder="Favorites"
-                    // error={true}
-                    // helperText="Example error"
                     {...register("film", {
                       required:
                         skillSelected.length > 0
