@@ -92,10 +92,11 @@ function App() {
 
     const delEmail = [...emailList];
 
-    // console.log("email", delEmail);
+    // console.log("email", delEmail, index);
 
     delEmail.splice(index, 1);
-    console.log(delEmail.splice(index, 1));
+    // console.log("asfas", a);
+    // console.log(delEmail.splice(index, 1));
     setEmailList(delEmail);
     setemailTyping("");
   };
@@ -141,11 +142,28 @@ function App() {
     if (handlePhoneInput) {
       isValidPhoneNumber(handlePhoneInput);
       return true;
-    } else if (handlePhoneInput.length == 10) {
+    } else if (handlePhoneInput.length === 10) {
       return true;
     } else {
       return false;
     }
+  };
+  //name field shows alert message when entering space
+  const whiteSpace = (e) => {
+    setNameTyping(e.target.value);
+    // console.log("sa", e.target.value);
+    const regexp = /^\S*$/;
+    let space = !regexp.test(e.target.value);
+    if (space) {
+      // cancel process, whitespace found;
+      setError("name", {
+        type: "validate",
+        message: "can't allow whitespace",
+      });
+    } else {
+      clearErrors("name", { shouldValidate: true });
+    }
+    // console.log("eeee");
   };
 
   // edit the card
@@ -189,6 +207,7 @@ function App() {
         email: emailList,
         phonenumber: phoneList,
       };
+
       formData.push(newData);
       console.log(emailList);
       setemailTyping("");
@@ -267,7 +286,7 @@ function App() {
                 })}
                 type="text"
                 value={nameTyping}
-                onChange={(e) => setNameTyping(e.target.value)}
+                onChange={(e) => whiteSpace(e)}
               />
               <p>{errors.name?.message}</p>
             </div>
@@ -318,7 +337,6 @@ function App() {
                     value: 10,
                     pattern: {
                       value: /^(0|[1-9]\d*)(\.\d+)?$/,
-                      //       message:"phonenumber must be 10 character",
                     },
                     validate: (value) => validatePhoneInput(value),
                   },
@@ -330,7 +348,6 @@ function App() {
               />
               <p>{errors.phonenumber?.message}</p>
               <AddIcon onClick={(e) => addPhone(e, phoneTyping)} />{" "}
-              {/* <p>{errors.phonenumber?.message}</p> */}{" "}
             </div>
 
             {phoneList.map((value, index) => {
@@ -365,9 +382,7 @@ function App() {
                     placeholder="Favorites"
                     {...register("film", {
                       required:
-                        skillSelected.length > 0
-                          ? false
-                          : "The field is required",
+                        skillSelected.length > 0 ? false : "Skill is required",
                     })}
                   />
                 )}
