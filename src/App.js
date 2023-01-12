@@ -88,11 +88,11 @@ function App() {
 
   // deleting the email field
   const deleteEmail = (index) => {
-    console.log("index: ", index);
+    // console.log("index: ", index);
 
     const delEmail = [...emailList];
 
-    console.log("email", delEmail);
+    // console.log("email", delEmail);
 
     delEmail.splice(index, 1);
     console.log(delEmail.splice(index, 1));
@@ -109,7 +109,7 @@ function App() {
   };
 
   const deletePhone = (value, index) => {
-    // console.log("phn",value,index);
+    // console.log("phn", value, index);
     const delPhone = [...phoneList];
     // console.log("dl",delPhone);
     // console.log("phn",phone);
@@ -260,10 +260,10 @@ function App() {
                     value: 3,
                     message: " atleast 3 character is required",
                   },
-                  maxLength: {
-                    value: 15,
-                    message: "allowed only 15 characters",
-                  },
+                  // maxLength: {
+                  //   value: 15,
+                  //   message: "allowed only 15 characters",
+                  // },
                 })}
                 type="text"
                 value={nameTyping}
@@ -279,10 +279,10 @@ function App() {
                 type="email"
                 {...register("email", {
                   required: "Email is required",
-                  minLength: {
-                    value: 5,
-                    message: "atleast 4 character is required",
-                  },
+                  // minLength: {
+                  //   value: 5,
+                  //   message: "atleast 4 character is required",
+                  // },
                   //   maxLength:{value:20,message:"allowed only 20 characters"},
                   pattern: {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
@@ -325,13 +325,7 @@ function App() {
                 })}
                 value={phoneTyping}
                 onChange={(value, country, e, formattedValue) =>
-                  handlePhoneInput(
-                    value,
-                    country,
-                    e,
-                    formattedValue,
-                    "phonenumber"
-                  )
+                  handlePhoneInput(value, country, e, formattedValue)
                 }
               />
               <p>{errors.phonenumber?.message}</p>
